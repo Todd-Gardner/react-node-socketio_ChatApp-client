@@ -12,7 +12,10 @@ const Chat = ({ location }) => {
   const ENDPOINT = "localhost:5000";
   const [name, setName] = useState("");
   const [room, setRoom] = useState("");
+  const [message, setMessage] = useState("");
+  const [messages, setMessages] = useState([]);
 
+  // useEffect for 'join'
   useEffect(() => {
     // Save query string to an object ie {Name: x, Room: y} -> destructure
     const { name, room } = queryString.parse(location.search);
@@ -25,21 +28,57 @@ const Chat = ({ location }) => {
     setRoom(room);
 
     // Send join{name:name, room:room} to the server (index.js)
-    socket.emit("join", { name, room }, () => { }); //Callback from server
-    
+    socket.emit("join", { name, room }, () => {}); //Callback from server
+
     // onUnmount - Cleanup for useEffect. Calls disconnect from server
     return () => {
-      socket.emit('disconnect');
+      socket.emit("disconnect");
 
       // Close socket when used disconnects
       socket.off();
-    }
+    };
   }, [ENDPOINT, location.search]); //only reload page when theese change
 
+  // useEffect for 'message'
+  useEffect(() => {
+    socket.on("message", (message) => {
+      // Add message to the messages array
+      setMessages([...messages, message]);
+    });
+    /* // Cleanup
+    return () => {
+     
+    }; */
+  }, [messages]); // s ?
+
+  // useEffect for 'connection'
+
+  // useEffect for 'disconnect'
+
+  // Function for sending messages
+  const sendMessageHandler = (event) => {
+    // Prevent browser from refreshing on 'return'/button click
+    event.preventDefault();
+
+    if (message) {
+      socket.emit("sendMessage", message, () => setMessage(""));
+    }
+  };
+  
+  /* RENDERING 2 TIMES !? */
+  console.log(message, messages);
+
   return (
-    <div>
-      <h1>Chat Page</h1>
-      <h3>Welcome {name}!</h3>
+    <div className="outerContainer">
+      <div className="container">
+        <input // Use && not ?
+          value={message}
+          onChange={(event) => setMessage(event.target.value)}
+          onKeyPress={(event) =>
+            event.key === "Enter" && sendMessageHandler(event)
+          }
+        />
+      </div>
     </div>
   );
 };
