@@ -4,6 +4,10 @@ import io from "socket.io-client";
 
 import "./Chat.css";
 
+import InfoBar from "../InfoBar/InfoBar";
+import Input from "../Input/Input";
+import Messages from "../Messages/Messages";
+
 // TODO: Create the CSS or use bootstrap //
 
 let socket;
@@ -64,19 +68,19 @@ const Chat = ({ location }) => {
       socket.emit("sendMessage", message, () => setMessage(""));
     }
   };
-  
+
   /* RENDERING 2 TIMES !? */
   console.log(message, messages);
 
   return (
     <div className="outerContainer">
       <div className="container">
-        <input // Use && not ?
-          value={message}
-          onChange={(event) => setMessage(event.target.value)}
-          onKeyPress={(event) =>
-            event.key === "Enter" && sendMessageHandler(event)
-          }
+        <InfoBar room={room} />
+        {/* <Messages messages={messages} /> */}
+        <Input
+          message={message}
+          setMessage={setMessage}
+          sendMessageHandler={sendMessageHandler}
         />
       </div>
     </div>
