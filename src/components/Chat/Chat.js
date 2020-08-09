@@ -7,6 +7,7 @@ import "./Chat.css";
 import InfoBar from "../InfoBar/InfoBar";
 import Input from "../Input/Input";
 import Messages from "../Messages/Messages";
+import UsersInRoom from "../UsersInRoom/UsersInRoom";
 
 // TODO: Create the CSS or use bootstrap //
 
@@ -18,6 +19,7 @@ const Chat = ({ location }) => {
   const [room, setRoom] = useState("");
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
+  const [users, setUsers] = useState("");
 
   // useEffect for 'join'
   useEffect(() => {
@@ -32,32 +34,37 @@ const Chat = ({ location }) => {
     setRoom(room);
 
     // Send join{name:name, room:room} to the server (index.js)
-    socket.emit("join", { name, room }, () => {}); //Callback from server
-
+    socket.emit("join", { name, room }, (error) => {
+      //Callback from server if error
+      if (error) {
+        alert(error);
+      }
+    });
     // onUnmount - Cleanup for useEffect. Calls disconnect from server
     return () => {
       socket.emit("disconnect");
-
       // Close socket when used disconnects
       socket.off();
     };
   }, [ENDPOINT, location.search]); //only reload page when theese change
 
-  // useEffect for 'message'
+  // useEffect for 'message' and 'roomData' (users in room)
   useEffect(() => {
-    socket.on("message", (message) => {
+    socket.on("message", message => {
       // Add message to the messages array
-      setMessages([...messages, message]);
+      setMessages((messages) => [...messages, message]);
     });
+
+    socket.on("roomData", ({ users }) => {
+      // Save users in room to state.
+      setUsers(users);
+    });
+
     /* // Cleanup
     return () => {
      
     }; */
-  }, [messages]); // s ?
-
-  // useEffect for 'connection'
-
-  // useEffect for 'disconnect'
+  }, []); // [messages, users] ---> Causing rerenders!?
 
   // Function for sending messages
   const sendMessageHandler = (event) => {
@@ -83,6 +90,7 @@ const Chat = ({ location }) => {
           sendMessageHandler={sendMessageHandler}
         />
       </div>
+      <UsersInRoom users={users} />
     </div>
   );
 };

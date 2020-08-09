@@ -15,9 +15,9 @@
     letter-spacing: 0; /*  */
 }
 
-.messageText img { /*  */
+/* .messageText img {
     vertical-align: middle;
-}
+} */
 
 .messageContainer {
     display: flex;
