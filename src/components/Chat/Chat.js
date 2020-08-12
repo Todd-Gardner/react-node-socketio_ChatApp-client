@@ -2,24 +2,25 @@ import React, { useState, useEffect } from "react";
 import queryString from "query-string";
 import io from "socket.io-client";
 
-import "./Chat.css";
-
 import InfoBar from "../InfoBar/InfoBar";
 import Input from "../Input/Input";
 import Messages from "../Messages/Messages";
 import UsersInRoom from "../UsersInRoom/UsersInRoom";
 
+import "./Chat.css";
 // TODO: Create the CSS or use bootstrap //
 
 let socket;
 
 const Chat = ({ location }) => {
-  const ENDPOINT = "localhost:5000";
   const [name, setName] = useState("");
   const [room, setRoom] = useState("");
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [users, setUsers] = useState("");
+  const ENDPOINT = "https://chat-app-react-node-socket.herokuapp.com/";
+  // When in developement:
+  //const ENDPOINT = "localhost:5000";
 
   // useEffect for 'join'
   useEffect(() => {

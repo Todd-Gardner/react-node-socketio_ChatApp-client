@@ -1,5 +1,9 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Connection URLs
+The front-end is hosted on Netlify and can be accessed using [Netlify](https://react-node-socketio-chat-app.netlify.app).
+The back-end is being hosted on [Heroku](https://chat-app-react-node-socket.herokuapp.com/).
+
 ## Available Scripts
 
 In the project directory, you can run:
