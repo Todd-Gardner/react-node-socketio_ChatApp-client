@@ -1,5 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+This is the front-end/client side code. The back-end/server code can be found [here](https://github.com/Todd-Gardner/react-node-socketio_ChatApp-server).
+
 # This is a live, real-time chat app. Created using React, Node, Express and Socket.io.
 The main purpose of this app was to give me more experience with socket.io and also deploying to Heroku and Netlify.
 The front end is hosted on Netlify and the back end hosted on Heroku.
@@ -17,7 +19,7 @@ The back-end is being hosted on [Heroku](https://chat-app-react-node-socket.hero
 
 ## TODO:
 I am eager to continue my learning on other things, so the following is a 'list to self' for improvements that could be done in the future.
-(Again, this app was for socket.io, Heroku and Netlify experience.
+(Again, this app was for socket.io, Heroku and Netlify experience.)
 
 - The CSS needs modifications - or bootstrap.
 - Remove the .tolowercase() on the front end.
@@ -26,5 +28,8 @@ I am eager to continue my learning on other things, so the following is a 'list 
 - Send push notifications with new messages or joins?
 - Be able to send private messages (w/ push).
 - Send images / attachments?
+- Check for empty strings (messages).
+- Add timestamps?
+- Check for repeat messages (spam).
 
 I also welcome anyone else's thoughts for improvements!
